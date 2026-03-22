@@ -1,0 +1,25 @@
+name: Build QRes
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up MSBuild
+      uses: microsoft/setup-msbuild@v1.1
+
+    - name: Build the QRes
+      run: |
+        msbuild QRes.sln /p:Configuration=Release
+
+    - name: Create Release Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: QRes-Release
+        path: bin/Release/QRes.exe
